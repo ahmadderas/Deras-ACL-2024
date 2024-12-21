@@ -6,9 +6,6 @@
 
 The motivation behind this project is to create a platform that connects tourists with local services, including tour guides, activities, and events, while providing an easy-to-use interface for administrators, users, and service providers. The goal is to streamline the booking process, enhance user experiences, and allow for easy management of resources by admins and users alike.
 
-## Build Status
-
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://example.com)
 
 ## Code Style
 
