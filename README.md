@@ -57,6 +57,82 @@ The motivation behind this project is to create a platform that connects tourist
 - **Notifications:** Admins can manage and view notifications related to the system, as well as other users receiving them.
 - **Secure Login:** Role-based login for different users (Admin, Tourist, Advertiser, etc.).
 
+## Installation
+
+### Prerequisites
+
+1. **Node.js**  
+   Ensure you have Node.js (v16 or higher) installed on your system.  
+   Download it from [Node.js Official Website](https://nodejs.org/).
+
+2. **MongoDB**  
+   Set up a local MongoDB instance or use a cloud-based MongoDB service.  
+   Download MongoDB from [MongoDB Official Website](https://www.mongodb.com/).
+
+3. **Git** (optional)  
+   Install Git to clone the repository:  
+   [Download Git](https://git-scm.com/).
+
+---
+
+### Steps
+
+1. **Clone the Repository**  
+   Open your terminal or command prompt and run:  
+   ```bash
+   git clone https://github.com/ahmadderas/Deras-ACL-2024.git
+
+2. **Navigate to the backend folder**
+   ```bash
+   cd backend
+
+3. **Install the backend dependenceis**
+   ```bash
+   npm install
+
+4. **Navigate to the frontend folder**
+   Open another terminal
+   ```bash
+   cd frontend
+
+5. **Install the frontend dependencies**
+   ```bash
+   npm install
+
+6. **Create a .env file in the backend folder**
+```env
+PORT = your port
+MONGO_URI = your mongo_uri
+JWT_SECRET= your jwt_secret
+EMAIL_USER = your system email (The one that handles sending email notifications to users)
+EMAIL_PASS = your system email's password
+
+```
+
+7. **Run the backend server using the following commands successively**
+   ```bash
+   cd backend
+   npm run dev
+
+8. **Run the frontend components using the following commands successively**
+   ```bash
+   cd frontend
+   npm start
+
+And you're good to go.
+
+## How To Use
+
+- **Sign Up:** Choose to sign up based on your desired role (tourist/advertiser/seller/tour guide)
+- **Login:** Login using your created credentials in the previous step
+- **Update Profile:** You can update your personal info by clicking on the update profile button on the homepage.
+- **Admin:** You can add/manage/delete users and manage activities, itineraries, products with their tags in addition to creating promocodes through each specified button in the homepage. For example, if you want to see how much users you have on the system you can click on user management where you have multiple options of adding an admin or a tourism governor in addition to accepting workers' signup requests, you'll go for the option where you click view no. of users and it will show you how many users you have in total and how many new users you get on the website per month.
+- **Tourist:** You can book an activity/itinerary by clicking on events & historical places. From there, you can book/save events that interest you. You can also buy whatever products you like by clicking on view products button on the home page, you can choose to add a product to your wishlist or directly to your cart with the amount you like. Then, you can proceed to checkout your items using your preferred way of payment (COD, credit card or payment through the website's online wallet).
+- **Tour Guide:** You can add/view/edit/delete any of your itineraries after clicking on the itineraries button.
+- **Advertiser:** You can add/view/edit/delete any of your activites after clicking on the activvities button, in addition to adding activity tags.
+- **Tourism Governor:** You can add/view/edit/delete any of your historical places/museums by clicking on the view museums/historical places button, in addition to adding and managing the preference tags.
+- **Seller:** You can add/view/edit/archive/unarchive any of your products after clicking on the view products button on the home page.
+
 ## API References
 
 ### 1. **Get Tourist Profile**
