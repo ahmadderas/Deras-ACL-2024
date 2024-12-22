@@ -9,7 +9,18 @@ const touristSchema = new mongoose.Schema({
   nationality: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   wallet: { type: Number, default: 0 },
-  isNotifyRequested: { type: Boolean, default: false}
+  isNotifyRequested: { type: Boolean, default: false },
+  cart: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+      count: { type: Number, required: true, default: 1 }, 
+    }
+  ],
+  wishlist: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    }
+  ]
 });
 
 const Tourist = mongoose.model('Tourist', touristSchema);

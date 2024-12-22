@@ -9,6 +9,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const Notification = require('../models/Notification');
+const Product = require('../models/Product');
+const PromoCode = require('../models/PromoCode');
+const Complaint = require('../models/Complaint');
 
 const addAdmin = async (req, res) => {
   const { username, password } = req.body;
@@ -393,7 +396,208 @@ const flagInappropriate = async (req, res) => {
   }
 };
 
+// View All Products (Admin can view all products)
+const viewProducts = async (req, res) => {
+  try {
+    const products = await Product.find(); // Fetch all products
+    res.status(200).json(products); // Send products as a response
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching products' });
+  }
+};
+
+// Add a New Product (Seller adds a product)
+const addProduct = async (req, res) => {
+  const { name, description, price, availableCount, seller } = req.body;
+
+  try {
+    const newProduct = new Product({
+      name,
+      description,
+      price,
+      availableCount,
+      seller,
+    });
+
+    await newProduct.save();
+    res.status(201).json(newProduct); // Return the newly added product
+  } catch (err) {
+    res.status(500).json({ message: 'Error adding product' });
+  }
+};
+
+// Edit an Existing Product (Admin or Seller can edit)
+const updateProduct = async (req, res) => {
+  const { productId } = req.params;
+  const { name, description, price, availableCount } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { name, description, price, availableCount },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json(updatedProduct); // Return the updated product
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating product' });
+  }
+};
+
+// Archive or Unarchive a Product (Admin can archive/unarchive)
+const toggleArchiveProduct = async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Toggle the archived status
+    product.isArchived = !product.isArchived;
+    await product.save();
+
+    res.status(200).json(product); // Return the updated product with new archive status
+  } catch (err) {
+    res.status(500).json({ message: 'Error toggling archive status' });
+  }
+};
+
+const getNotifications = async (req,res) => {
+  try {
+    const  userId  = req.params.id;
+    const notifications = await Notification.find( {userId} );
+    res.json(notifications);
+    console.log(userId);
+    console.log(notifications);
+  } catch(err) {
+    res.status(500).json({ message: 'Error fetching notifications' });
+    console.log(err);
+  }
+}
+
+const createPromoCode = async (req, res) => {
+  const { code, usageLimit } = req.body;
+
+  // Validate the input
+  if (!code || !usageLimit) {
+    return res.status(400).json({ message: 'Both code and usageLimit are required' });
+  }
+
+  try {
+    // Check if the promo code already exists
+    const existingPromoCode = await PromoCode.findOne({ code });
+    if (existingPromoCode) {
+      return res.status(400).json({ message: 'Promo code already exists' });
+    }
+
+    // Create a new promo code document
+    const newPromoCode = new PromoCode({
+      code,
+      usageLimit,
+    });
+
+    // Save the promo code to the database
+    await newPromoCode.save();
+
+    // Send success response
+    return res.status(201).json({
+      message: 'Promo code created successfully',
+      promoCode: newPromoCode,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Failed to create promo code' });
+  }
+};
+
+const getComplaints = async (req, res) => {
+  try {
+
+    // Fetch complaints where the tourist field matches the given ID
+    const complaints = await Complaint.find();
+    console.log(complaints);
+
+    // If no complaints are found, return a 404 response
+    if (!complaints.length) {
+      return res.status(404).json({ message: 'No complaints found for this tourist' });
+    }
+
+    // Return the complaints in the response
+    res.status(200).json(complaints);
+  } catch (error) {
+    console.error('Error retrieving complaints:', error);
+    res.status(500).json({ message: 'Error retrieving complaints' });
+  }
+};
+
+// Update complaint status
+const updateComplaintStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the complaint by ID
+    const complaint = await Complaint.findById(id);
+
+    if (!complaint) {
+      return res.status(404).json({ error: 'Complaint not found' });
+    }
+
+    // Toggle the status
+    const newStatus = complaint.status === 'pending' ? 'resolved' : 'pending';
+
+    // Update the complaint's status
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { status: newStatus },
+      { new: true }
+    );
+
+    res.json(updatedComplaint);
+  } catch (error) {
+    console.error('Error updating status:', error);
+    res.status(500).json({ error: 'Failed to update status' });
+  }
+};
+
+
+// Update complaint reply
+const updateComplaintReply = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reply } = req.body;
+
+    // Ensure reply content is provided
+    if (!reply || reply.trim() === '') {
+      return res.status(400).json({ error: 'Reply is required' });
+    }
+
+    // Find and update the complaint reply
+    const complaint = await Complaint.findByIdAndUpdate(
+      id,
+      { reply },
+      { new: true }
+    );
+    console.log(complaint);
+    console.log(reply);
+
+    if (!complaint) {
+      return res.status(404).json({ error: 'Complaint not found' });
+    }
+
+    res.json(complaint);
+  } catch (error) {
+    console.error('Error updating reply:', error);
+    res.status(500).json({ error: 'Failed to update reply' });
+  }
+};
+
 
   
 
-module.exports = { addAdmin, addGovernor, viewSignupRequests, acceptWorker, rejectWorker, viewUsers, deleteUser, getCategories, createCategory, updateCategory, deleteCategory, getTags, createTag, updateTag, deleteTag, getUserStats, getActivitiesItineraries, flagInappropriate };
+module.exports = { addAdmin, addGovernor, viewSignupRequests, acceptWorker, rejectWorker, viewUsers, deleteUser, getCategories, createCategory, updateCategory, deleteCategory, getTags, createTag, updateTag, deleteTag, getUserStats, getActivitiesItineraries, flagInappropriate, viewProducts, addProduct, updateProduct, toggleArchiveProduct, getNotifications, createPromoCode, getComplaints, updateComplaintReply, updateComplaintStatus };

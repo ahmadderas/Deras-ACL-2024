@@ -27,7 +27,7 @@ const ViewSaved = () => {
     try {
       
       const response = await fetch(`/api/tourist/receive-notifications/${userId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },

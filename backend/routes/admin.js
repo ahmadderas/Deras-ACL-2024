@@ -1,5 +1,6 @@
 const express = require('express');
-const { addAdmin, addGovernor, viewSignupRequests, acceptWorker, rejectWorker, viewUsers, deleteUser, getCategories, updateCategory, createCategory, deleteCategory, getTags, createTag, updateTag, deleteTag, getUserStats, getActivitiesItineraries, flagInappropriate } = require('../controllers/adminController');
+const { addAdmin, addGovernor, viewSignupRequests, acceptWorker, rejectWorker, viewUsers, deleteUser, getCategories, updateCategory, createCategory, deleteCategory, getTags, createTag, updateTag, deleteTag, getUserStats, getActivitiesItineraries, flagInappropriate, viewProducts, addProduct, updateProduct, toggleArchiveProduct, getNotifications, createPromoCode, getComplaints, updateComplaintReply, updateComplaintStatus } = require('../controllers/adminController');
+
 
 const router = express.Router();
 
@@ -56,5 +57,33 @@ router.get('/activitiesItineraries', getActivitiesItineraries);
 
 //Flag an event as inappropriate
 router.put('/flag-inappropriate/:type/:id', flagInappropriate);
+
+
+router.get('/view-products', viewProducts);
+
+// Route to add a new product (Seller can add products)
+router.post('/add-product/:userId', addProduct);
+
+// Route to update a product (Admin and Seller can update)
+router.patch('/update-product/:productId', updateProduct);
+
+// Route to archive/unarchive a product (Admin can archive/unarchive any product)
+router.patch('/archive-product/:productId', toggleArchiveProduct);
+
+// Get notifications
+router.get('/notifications/:id', getNotifications);
+
+//Create a promocode
+router.post('/create-promocode', createPromoCode);
+
+//View complaints
+router.get('/get-complaints', getComplaints)
+
+//Change complaint status
+router.patch('/update-complaint-status/:id', updateComplaintStatus);
+
+//Change complaint reply
+router.patch('/update-complaint-reply/:id', updateComplaintReply);
+
 
 module.exports = router;

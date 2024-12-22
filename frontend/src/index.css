@@ -268,5 +268,11 @@ button:disabled {
   text-align: center;
 }
 
+/* Products.css */
+.product-card {
+  margin-bottom: 20px; /* Adjust this value to your desired spacing */
+}
+
+
 
 

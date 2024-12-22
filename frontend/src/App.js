@@ -37,6 +37,18 @@ import Notifications from './components/tourGuide/viewNotifications';
 import ViewAll from './components/tourist/viewAll';
 import Comments from './components/tourist/comments';
 import ViewSaved from './components/tourist/viewSaved';
+import Products from './components/seller/products';
+import ViewProducts from './components/tourist/viewProducts';
+import ViewWishlist from './components/tourist/viewWishlist';
+import ViewCart from './components/tourist/viewCart';
+import Checkout from './components/tourist/checkout';
+import ViewOrders from './components/tourist/viewOrders';
+import AdminProducts from './components/admin/viewProducts';
+import AdminViewNotifications from './components/admin/viewNotifications';
+import SellerViewNotifications from './components/seller/viewNotifications';
+import TouristComplaints from './components/tourist/viewComplaints';
+import AdminComplaints from './components/admin/viewComplaints';
+
 
 
 function App() {
@@ -63,8 +75,16 @@ function App() {
         <Route path="/tourist/comments" element={<Comments />} />
         <Route path="/tourist/viewSaved" element={<ViewSaved />} />
         <Route path="/tourist/viewNotifications" element={<Notifications />} />
+        <Route path="/tourist/viewProducts" element={<ViewProducts />} />
+        <Route path="/tourist/viewWishlist" element={<ViewWishlist />} />
+        <Route path="/tourist/viewCart" element={<ViewCart />} />
+        <Route path="/tourist/checkout" element={<Checkout />} />
+        <Route path="/tourist/viewOrders" element={<ViewOrders />} />
+        <Route path="/tourist/viewComplaints" element={<TouristComplaints />} />
         <Route path="/tourGuide/updateProfile" element={<TourGuideProfile />} />
         <Route path="/seller/updateProfile" element={<SellerProfile />} />
+        <Route path="/seller/products" element={<Products/>} />
+        <Route path="/seller/viewNotifications" element={<SellerViewNotifications/>} />
         <Route path="/tourist/updateProfile" element={<TouristProfileComponent />} />
         <Route path="/advertiser/updateProfile" element={<AdvertiserProfile />} />
         <Route path="/advertiser/viewActivities" element={<ViewActivities />} />
@@ -82,6 +102,9 @@ function App() {
         <Route path="/admin/events" element={<Events />} />
         <Route path="/admin/activityCategories" element={<ActivityCategories />} />
         <Route path="/admin/tags" element={<Tags />} />
+        <Route path="/admin/viewProducts" element={<AdminProducts />} />
+        <Route path="/admin/viewNotifications" element={<AdminViewNotifications />} />
+        <Route path="/admin/viewComplaints" element={<AdminComplaints />} />
 
 
 
